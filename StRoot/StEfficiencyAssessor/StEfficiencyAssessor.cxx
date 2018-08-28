@@ -285,7 +285,7 @@ int StEfficiencyAssessor::InitOutput() {
     reco_cut_nhitposs_ = new TH3D("reconhitposscut", ";cent;pt;nhitposs", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
     reco_cut_eta_ = new TH3D("recoetacut", ";cent;pt;#eta", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
     reco_cut_phi_ = new TH3D("recophicut", ";cent;pt;#phi", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -TMath::Pi(), TMath::Pi());
-     reco_cut_fitfrac_ = new TH3D("recocutfitfrac", ";cent;pt;fitfrac", cent_axis.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
+     reco_cut_fitfrac_ = new TH3D("recocutfitfrac", ";cent;pt;fitfrac", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
     
      data_nhit_ = new TH3D("datanhit", ";cent;pt;nhit", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
     data_dca_ = new TH3D("datadca", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
