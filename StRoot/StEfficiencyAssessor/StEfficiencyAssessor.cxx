@@ -247,10 +247,10 @@ int StEfficiencyAssessor::InitInput() {
         return kStFatal;
     }
 
-    if (TString(muDstMaker_->GetFile()).contains("SL17d")) {
+    if (TString(muDstMaker_->GetFile()).Contains("SL17d")) {
         p17id_cent_def_ = new CentralityDef();
     }
-    else if (TString(muDstMaker->GetFile()).contains("SL16d")) {
+    else if (TString(muDstMaker_->GetFile()).Contains("SL16d")) {
         p16id_cent_def_ = CentralityMaker::instance()->getgRefMultCorr_P16id();
         p16id_cent_def_->setVzForWeight(6, -6.0, 6.0);
         p16id_cent_def_->readScaleForWeight("StRoot/StRefMultCorr/macros/weight_grefmult_vpd30_vpd5_Run14_P16id.txt");
@@ -278,7 +278,7 @@ int StEfficiencyAssessor::InitOutput() {
     reco_nhitposs_ = new TH3D("reconhitposs", ";cent;pt;nhitposs", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
     reco_eta_ = new TH3D("recoeta", ";cent;pt;#eta", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
     reco_phi_ = new TH3D("recophi", ";cent;pt;#phi", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -TMath::Pi(), TMath::Pi());
-    reco_fitfrac_ = new TH3D("recofitfrac", ";cent;pt;fitfrac", cent_axis.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
+    reco_fitfrac_ = new TH3D("recofitfrac", ";cent;pt;fitfrac", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
    
     reco_cut_nhit_ = new TH3D("reconhitcut", ";cent;pt;nhit", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
     reco_cut_dca_ = new TH3D("recodcacut", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
