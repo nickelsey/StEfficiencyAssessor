@@ -10,6 +10,8 @@
 #include "TMath.h"
 #include "TTree.h"
 
+#include "StRefMultCorr/CentralityMaker.h"
+
 ClassImp(StEfficiencyAssessor);
 
 StEfficiencyAssessor::StEfficiencyAssessor(TChain* mcTree, std::string outputFile) {
@@ -195,7 +197,7 @@ Int_t StEfficiencyAssessor::Make() {
         reco_cut_nhitposs_->Fill(centrality, pair->ptPr(), pair->nPossiblePts()+1);
         reco_cut_fitfrac_->Fill(centrality, pair->ptPr(), (double)pair->fitPts()/pair->nPossiblePts());
     }
-    mc_reco_track_->Fill(centrality, count_mc, count_pair);
+    mc_reco_tracks_->Fill(centrality, count_mc, count_pair);
 
     for (int i = 0; i < muDst_->primaryTracks()->GetEntries(); ++i) {
         StMuTrack* muTrack = (StMuTrack*) muDst_->primaryTracks(i);
