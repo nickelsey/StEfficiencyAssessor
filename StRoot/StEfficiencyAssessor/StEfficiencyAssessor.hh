@@ -129,18 +129,21 @@ class StEfficiencyAssessor : public StMaker {
         TH3D* reco_nhitposs_;
         TH3D* reco_eta_;
         TH3D* reco_phi_;
+        TH3D* reco_fitfrac_;
 
         TH3D* reco_cut_nhit_;
         TH3D* reco_cut_dca_;
         TH3D* reco_cut_nhitposs_;
         TH3D* reco_cut_eta_;
         TH3D* reco_cut_phi_;
+        TH3D* reco_fitfrac_;
 
         TH3D* data_nhit_;
         TH3D* data_dca_;
         TH3D* data_nhitposs_;
         TH3D* data_eta_;
         TH3D* data_phi_;
+        TH3D* data_fitfrac_;
 
         TH1D* vz_;
         TH1D* refmult_;
