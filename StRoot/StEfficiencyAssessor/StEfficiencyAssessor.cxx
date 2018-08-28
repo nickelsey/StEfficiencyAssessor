@@ -247,17 +247,17 @@ int StEfficiencyAssessor::InitInput() {
         return kStFatal;
     }
 
-    if (TString(muDstMaker->GetFile()).contains("SL17d")) {
+    if (TString(muDstMaker_->GetFile()).contains("SL17d")) {
         p17id_cent_def_ = new CentralityDef();
     }
     else if (TString(muDstMaker->GetFile()).contains("SL16d")) {
         p16id_cent_def_ = CentralityMaker::instance()->getgRefMultCorr_P16id();
-        p16id_cent_def->setVzForWeight(6, -6.0, 6.0);
-        p16id_cent_def->readScaleForWeight("StRoot/StRefMultCorr/macros/weight_grefmult_vpd30_vpd5_Run14_P16id.txt");
+        p16id_cent_def_->setVzForWeight(6, -6.0, 6.0);
+        p16id_cent_def_->readScaleForWeight("StRoot/StRefMultCorr/macros/weight_grefmult_vpd30_vpd5_Run14_P16id.txt");
     }
     else {
         LOG_ERROR << "Library could not be discovered: exiting" << endm;
-        return kSFatal;
+        return kStFatal;
     }   
 
 
