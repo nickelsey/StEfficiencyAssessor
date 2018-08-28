@@ -69,7 +69,7 @@ class StEfficiencyAssessor : public StMaker {
 
         // allows you to modify the centrality and StRefMultCorr definitions
         CentralityDef* CentralityDefinitionP17id() {return p17id_cent_def_;}
-        CentralityDef* CentralityDefinitionP16id() {return p16id_cent_def_;}
+        StRefMultCorr* CentralityDefinitionP16id() {return p16id_cent_def_;}
         // set track cuts for matched tracks
         void SetDCAMax(double dca) {maxDCA_ = dca;}
         double DCAMax() const      {return maxDCA_;}

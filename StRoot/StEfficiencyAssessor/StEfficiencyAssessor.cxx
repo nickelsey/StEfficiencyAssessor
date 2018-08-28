@@ -121,9 +121,9 @@ Int_t StEfficiencyAssessor::Make() {
         p17id_cent_def_->setEvent(muInputEvent_->runId(), muInputEvent_->refMult(), muInputEvent_->runInfo().zdcCoincidenceRate(), event_->vertexZ());
         centrality = p17id_cent_def_->centrality9();
     }
-    else if (p16id_cent_def) {
-        p16id_cent_def_->init(mMuInputEvent->runId());
-        p16id_cent_def_->initEvent(muInputEvent_->grefMult(), muInputEvent_->primaryVertexPosition().z(), muInputEvent_->runInfo().zdcCoincidenceRate());
+    else if (p16id_cent_def_) {
+        p16id_cent_def_->init(muInputEvent_->runId());
+        p16id_cent_def_->initEvent(muInputEvent_->grefmult(), muInputEvent_->primaryVertexPosition().z(), muInputEvent_->runInfo().zdcCoincidenceRate());
         centrality = p16id_cent_def_->getCentralityBin9();
     }
     else {
