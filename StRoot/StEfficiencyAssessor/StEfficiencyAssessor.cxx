@@ -292,7 +292,7 @@ int StEfficiencyAssessor::InitOutput() {
     data_nhitposs_ = new TH3D("datanhitposs", ";cent;pt;nhitposs", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
     data_eta_ = new TH3D("recoetacut", ";cent;pt;#eta", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
     data_phi_ = new TH3D("recophicut", ";cent;pt;#phi", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -TMath::Pi(), TMath::Pi());
-     data_fitfrac_ = new TH3D("datafitfrac", ";cent;pt;fitfrac", cent_axis.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
+     data_fitfrac_ = new TH3D("datafitfrac", ";cent;pt;fitfrac", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
 
     vz_ = new TH1D("vz", ";v_{z}[cm]", 60, -30, 30);
     refmult_ = new TH1D("refmult", ";refmult", 800, 0, 800);
@@ -302,7 +302,7 @@ int StEfficiencyAssessor::InitOutput() {
     mc_reco_tracks_ = new TH3D("mcrecotracks", ";cent;mc tracks;reco tracks", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, 50, 0, 50, 50, 0, 50);
 
     mc_tracks_ = new TH2D("mctracks", ";cent;pt", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high);
-    reco_tracks_ = new TH2D("recotracks", ";cent;pt", cent_axis.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high);
+    reco_tracks_ = new TH2D("recotracks", ";cent;pt", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high);
 
 
 
