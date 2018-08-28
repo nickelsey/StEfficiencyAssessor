@@ -19,6 +19,8 @@
 #include "StMuDSTMaker/COMMON/StMuDst.h"
 #include "StMuDSTMaker/COMMON/StMuEvent.h"
 
+#include "StRefMultCorr/StRefMultCorr.h"
+
 struct axisDef {
     unsigned nBins;
     double low;
@@ -131,8 +133,8 @@ class StEfficiencyAssessor : public StMaker {
         TH3D* reco_cut_nhit_;
         TH3D* reco_cut_dca_;
         TH3D* reco_cut_nhitposs_;
-        TH3D* reco_eta_;
-        TH3D* reco_phi_;
+        TH3D* reco_cut_eta_;
+        TH3D* reco_cut_phi_;
 
         TH3D* data_nhit_;
         TH3D* data_dca_;
