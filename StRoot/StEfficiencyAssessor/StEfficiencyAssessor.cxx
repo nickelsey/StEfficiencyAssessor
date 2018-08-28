@@ -138,7 +138,7 @@ Int_t StEfficiencyAssessor::Make() {
 
     vz_->Fill(muInputEvent_->primaryVertexPosition().z());
     refmult_->Fill(muInputEvent_->refMult());
-    grefmult_->Fill(muInputEvent_->grefMult());
+    grefmult_->Fill(muInputEvent_->grefmult());
     centrality_->Fill(centrality);
 
     TClonesArray* mc_array = event_->tracks(MC);
@@ -155,8 +155,8 @@ Int_t StEfficiencyAssessor::Make() {
 
         count_mc++;
         mc_tracks_->Fill(centrality, track->ptMc());
-        mc_eta_->Fill(centrality, track->etaMc());
-        mc_phi_->Fill(centrality, track->phiMc());
+        mc_eta_->Fill(centrality, track->ptMc(), track->etaMc());
+        mc_phi_->Fill(centrality, track->ptMc(), track->phiMc());
     }
 
 
