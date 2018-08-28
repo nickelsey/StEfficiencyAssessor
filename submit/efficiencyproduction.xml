@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE note [
+<!ENTITY MUFILE "/global/homes/e/elsey/StEfficiencyAssessor/list/piplus/mu0.list">
+<!ENTITY MCFILE "/global/homes/e/elsey/StEfficiencyAssessor/list/piplus/mc0.list">
+<!ENTITY DCA "1.0">
+<!ENTITY FITPTS "20">
+<!ENTITY FITFRAC "0.52">
+<!ENTITY PROD "SL17d_embed">
+<!ENTITY ROOTDIR "/global/homes/e/elsey/StEfficiencyAssessor">
+<!ENTITY OUTDIR "/global/homes/e/elsey/StEfficiencyAssessor/out">
+]>
+
+<!--             STAR Collaboration - Nick Elsey             -->
+<!--
+
+ OUTDIR/tmplogs must be created before the script is submitted
+ 
+ To Use: Settings
+ 
+ MUFILE:     text file with list of muDst files
+ 
+ MCFILE:     text file with list of corresponding minimc files (does not
+             need to be in the same order as the MUFILE list, but it will be
+             significantly faster if it is)
+ 
+ PROD:       the library that the muDsts/minimcs were produced with
+ 
+ ROOTDIR:    root directory of StEfficiencyAssessor code
+ 
+ OUTDIR:     target output directory
+ 
+ -->
+
+<!-- <job fileListSyntax="xrootd" inputOrder="runnumber" splitBy="runnumber" maxEvents="15000" simulateSubmission="true"> -->
+<job>
+
+ <command>
+   
+    starver &PROD;
+   
+    setenv LOG &OUTDIR;/logs/log
+    setenv ERR &OUTDIR;/logs/err
+    setenv OUT &OUTDIR;/out
+
+    mkdir -p $LOG
+    mkdir -p $ERR
+    mkdir -p $OUT
+    mkdir StRoot
+    mv StRefMultCorr StRoot/
+    
+    setenv NUMBER `wc -l &MUFILE;`
+    
+    root4star -q -b efficiency_assessment.cxx\(1e9,\"\&MUFILE;\",\"\&MCFILE;\",\"$JOBID\",&DCA;,&FITPTS;,&FITFRAC;,$NUMBER\)
+
+    rm &OUTDIR;/tmplogs/$JOBID.*
+	
+    mv $SCRATCH/*.root $OUT/
+ </command>
+ 
+ <ResourceUsage>
+   <Times>
+     <MaxWallTime>1</MaxWallTime>
+   </Times>
+   <Memory>
+     <MinMemory>2500</MinMemory>
+   </Memory>
+ </ResourceUsage>
+
+ <SandBox installer="ZIP">
+	 <Package name="Efficiency_&PROD;">
+                <File>file:&ROOTDIR;/macros/efficiency_assessment.cxx</File>
+                <File>file:&ROOTDIR;/libs/libStEfficiencyAssessment.so</File>
+                <File>file:&ROOTDIR;/libs/libStRefMultCorr.so</File>
+                <File>file:&ROOTDIR;/StRoot/StRefMultCorr</File>
+         </Package>
+ </SandBox>
+ 
+ <Generator>
+   <Location>&ROOTDIR;/scheduler/report/</Location>
+   <ScriptLocation>&ROOTDIR;/scheduler/csh/</ScriptLocation>
+   <ListLocation>&ROOTDIR;/scheduler/list/</ListLocation>
+ </Generator>
+
+<stdout URL="file:&OUTDIR;/tmplogs/$JOBID.log" />
+<stderr URL="file:&OUTDIR;/tmplogs/$JOBID.err" />
+
+</job>
+
+
