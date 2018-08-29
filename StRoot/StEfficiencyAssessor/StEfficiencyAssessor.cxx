@@ -115,7 +115,7 @@ Int_t StEfficiencyAssessor::Make() {
         LOG_ERROR << "Could not find miniMC event matching muDST event" << endm;
         return kStErr;
     }
-    std::cout << "getting centrality" << std::endl;
+    
     int centrality = 0;
     if (p17id_cent_def_) {
         p17id_cent_def_->setEvent(muInputEvent_->runId(), muInputEvent_->refMult(), muInputEvent_->runInfo().zdcCoincidenceRate(), event_->vertexZ());
@@ -134,18 +134,17 @@ Int_t StEfficiencyAssessor::Make() {
         return kStOK;
     if (fabs(muInputEvent_->primaryVertexPosition().z()) > 30)
         return kStOK;
-    std::cout << "got centrlality" << std::endl;
+    
     vz_->Fill(muInputEvent_->primaryVertexPosition().z());
     refmult_->Fill(muInputEvent_->refMult());
     grefmult_->Fill(muInputEvent_->grefmult());
     centrality_->Fill(centrality);
-    std::cout << "filled basics" << std::endl;
+    
     TClonesArray* mc_array = event_->tracks(MC);
     TIter next_mc(mc_array);
     StTinyMcTrack* track = nullptr;
     unsigned count_mc = 0;
     while ((track = (StTinyMcTrack*) next_mc())) {
-        std::cout << "filling track" << std::endl;
         if (geant_ids_.size() && geant_ids_.find(track->geantId()) == geant_ids_.end())
             continue;
 
@@ -164,7 +163,6 @@ Int_t StEfficiencyAssessor::Make() {
     StMiniMcPair* pair = nullptr;
     unsigned count_pair = 0;
     while ((pair = (StMiniMcPair*) next_match())) {
-        std::cout << "filling pair" << std::endl;
         if (geant_ids_.size() && geant_ids_.find(pair->geantId()) == geant_ids_.end())
             continue;
 
@@ -197,7 +195,6 @@ Int_t StEfficiencyAssessor::Make() {
     mc_reco_tracks_->Fill(centrality, count_mc, count_pair);
 
     for (int i = 0; i < muDst_->primaryTracks()->GetEntries(); ++i) {
-        std::cout << "filling mutrack" << std::endl;
         StMuTrack* muTrack = (StMuTrack*) muDst_->primaryTracks(i);
         if (muTrack->flag() < 0)
             continue;
@@ -210,12 +207,12 @@ Int_t StEfficiencyAssessor::Make() {
         if (fabs(muTrack->eta()) > 1.0)
             continue;
         
-        data_nhit_->Fill(centrality, muTrack->pt(), pair->fitPts());
-        data_dca_->Fill(centrality, muTrack->pt(), pair->dcaGl());
-        data_eta_->Fill(centrality, muTrack->pt(), pair->etaPr());
-        data_phi_->Fill(centrality, muTrack->pt(), pair->phiPr());
-        data_nhitposs_->Fill(centrality, muTrack->pt(), pair->nPossiblePts()+1);
-        data_fitfrac_->Fill(centrality, muTrack->pt(), (double)pair->fitPts()/pair->nPossiblePts());
+        data_nhit_->Fill(centrality, muTrack->pt(), muTrack->nHitsFit());
+        data_dca_->Fill(centrality, muTrack->pt(), muTrack->dcaGlobal().mag());
+        data_eta_->Fill(centrality, muTrack->pt(), muTrack->eta());
+        data_phi_->Fill(centrality, muTrack->pt(), muTrack->phi());
+        data_nhitposs_->Fill(centrality, muTrack->pt(), muTrack->nHitsPoss(kTpcId)+1);
+        data_fitfrac_->Fill(centrality, muTrack->pt(), (double)muTrack->nHitsFit()/muTrack->nHitsPoss(kTpcId)+1);
 
     }
 
