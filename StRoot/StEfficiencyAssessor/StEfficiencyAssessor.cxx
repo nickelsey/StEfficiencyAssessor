@@ -163,10 +163,10 @@ Int_t StEfficiencyAssessor::Make() {
     while ((pair = (StMiniMcPair*) next_match())) {
         if (geant_ids_.size() && geant_ids_.find(pair->geantId()) == geant_ids_.end())
             continue;
-
+      
         if (pair->parentGeantId() != 0)
             continue;
-        reco_tracks_->Fill(centrality, pair->ptPr());
+    
         reco_nhit_->Fill(centrality, pair->ptPr(), pair->fitPts());
         reco_dca_->Fill(centrality, pair->ptPr(), pair->dcaGl());
         reco_eta_->Fill(centrality, pair->ptPr(), pair->etaPr());
@@ -182,7 +182,9 @@ Int_t StEfficiencyAssessor::Make() {
 
         if ((double) pair->fitPts() / (pair->nPossiblePts()+1) < minFitFrac_)
             continue;
+      
         count_pair++;
+        reco_tracks_->Fill(centrality, pair->ptPr());
         reco_cut_nhit_->Fill(centrality, pair->ptPr(), pair->fitPts());
         reco_cut_dca_->Fill(centrality, pair->ptPr(), pair->dcaGl());
         reco_cut_eta_->Fill(centrality, pair->ptPr(), pair->etaPr());
