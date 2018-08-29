@@ -12,6 +12,8 @@
 
 #include "StRefMultCorr/CentralityMaker.h"
 
+#include <iostream>
+
 ClassImp(StEfficiencyAssessor);
 
 StEfficiencyAssessor::StEfficiencyAssessor(TChain* mcTree, std::string outputFile) {
@@ -39,13 +41,13 @@ StEfficiencyAssessor::~StEfficiencyAssessor() {
 }
 
 int StEfficiencyAssessor::Init() {
-    LOG_INFO << "loading input" << endm;
+    std::cout << "loading input" << std::endl;
     if (InitInput() != kStOK)
         return kStFatal;
-    LOG_INFO << "loading output" << endm;
+    std::cout << "loading output" << std::endl;
     if (InitOutput() != kStOK)
         return kStFatal;
-    LOG_INFO << "load successful" << endm;
+    std::cout << "load successful" << std::endl;
     return kStOK;
 }
 
@@ -92,13 +94,13 @@ bool StEfficiencyAssessor::LoadTree(TChain* chain) {
         LOG_ERROR << "chain does not contain StMiniMcEvent branch" << endm;
         return false;
     }
-    LOG_INFO << "loading chain" << endm;
+    std::cout << "loading chain" << std::endl;
     chain_ = chain;
     event_ = new StMiniMcEvent;
 
     chain_->SetBranchAddress("StMiniMcEvent", &event_);
     chain_->GetEntry(0);
-    LOG(INFO) << "chain loaded" << endm;
+    std::cout << "chain loaded" << std::endl;
     return true;
 }
 
@@ -108,13 +110,13 @@ bool StEfficiencyAssessor::CheckAxes() {
 }
 
 Int_t StEfficiencyAssessor::Make() {
-    LOG_INFO << "calling make" <<endm;
+    std::cout << "calling make" << std::endl;
     if (event_ == nullptr) {
         LOG_ERROR << "StMiniMcEvent Branch not loaded properly: exiting run loop" << endm;
         return kStFatal;
     }
 
-    LOG_INFO << "loading event" << endm;
+    std::cout << "loading event" << std::endl;
     // load the matching miniMC event
     if (LoadEvent() == false) {
         LOG_ERROR << "Could not find miniMC event matching muDST event" << endm;
@@ -122,7 +124,7 @@ Int_t StEfficiencyAssessor::Make() {
     }
 
     int centrality = 0;
-    LOG_INFO << "getting centrality" << endm;
+    std::cout << "getting centrality" << std::endl;
     if (p17id_cent_def_) {
         p17id_cent_def_->setEvent(muInputEvent_->runId(), muInputEvent_->refMult(), muInputEvent_->runInfo().zdcCoincidenceRate(), event_->vertexZ());
         centrality = p17id_cent_def_->centrality9();
@@ -138,7 +140,7 @@ Int_t StEfficiencyAssessor::Make() {
     }
     if (centrality < 0 || centrality > 8)
         return kStOK;
-    LOG_INFO << "got centrality" << endm;
+    std::cout << "got centrality" << std::endl;
     if (fabs(muInputEvent_->primaryVertexPosition().z()) > 30)
         return kStOK;
 
@@ -250,11 +252,13 @@ int StEfficiencyAssessor::InitInput() {
         LOG_ERROR << "No muDstMaker found in chain: StEfficiencyAssessor init failed" << endm;
         return kStFatal;
     }
-
+    std::cout << "loading mudstmaker" << std::endl;
     if (TString(muDstMaker_->GetFile()).Contains("SL17d")) {
+        std::cout << "loading centrality p17id" << std::endl;
         p17id_cent_def_ = new CentralityDef();
     }
     else if (TString(muDstMaker_->GetFile()).Contains("SL16d")) {
+        std::cout << "loading centrality p16id" << std::endl;
         p16id_cent_def_ = CentralityMaker::instance()->getgRefMultCorr_P16id();
         p16id_cent_def_->setVzForWeight(6, -6.0, 6.0);
         p16id_cent_def_->readScaleForWeight("StRoot/StRefMultCorr/macros/weight_grefmult_vpd30_vpd5_Run14_P16id.txt");
@@ -264,7 +268,7 @@ int StEfficiencyAssessor::InitInput() {
         return kStFatal;
     }   
 
-
+    LOG_INFO << "complete loading input" << std::endl;
     return kStOK;
 }
 
@@ -273,7 +277,7 @@ int StEfficiencyAssessor::InitOutput() {
         LOG_ERROR << "axes not valid: could not initialize histograms";
         return kStFatal;
     }
-
+    LOG_INFO << "building histograms" << std::endl;
     mc_eta_ = new TH3D("mceta", ";cent;pt;#eta", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
     mc_phi_ = new TH3D("mcphi", ";cent;pt;#phi", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
 
@@ -309,7 +313,7 @@ int StEfficiencyAssessor::InitOutput() {
     reco_tracks_ = new TH2D("recotracks", ";cent;pt", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high);
 
 
-
+    std::cout << "loading histograms done" << std::endl;
     return kStOK;
 }
 
