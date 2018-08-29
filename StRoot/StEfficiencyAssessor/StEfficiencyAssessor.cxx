@@ -124,12 +124,12 @@ Int_t StEfficiencyAssessor::Make() {
     }
     std::cout << "finished loading" << std::endl;
     int centrality = 0;
-    if (p17id_cent_def_) {
+    if (p17id_cent_def_ != nullptr) {
         std::cout << "p17id centrality?" << std::endl;
         p17id_cent_def_->setEvent(muInputEvent_->runId(), muInputEvent_->refMult(), muInputEvent_->runInfo().zdcCoincidenceRate(), event_->vertexZ());
         centrality = p17id_cent_def_->centrality9();
     }
-    else if (p16id_cent_def_) {
+    else if (p16id_cent_def_ != nullptr) {
         std::cout << "p16id centrality?" << std::endl;
         p16id_cent_def_->init(muInputEvent_->runId());
         p16id_cent_def_->initEvent(muInputEvent_->grefmult(), muInputEvent_->primaryVertexPosition().z(), muInputEvent_->runInfo().zdcCoincidenceRate());
@@ -281,19 +281,24 @@ int StEfficiencyAssessor::InitInput() {
         LOG_ERROR << "No muDstMaker found in chain: StEfficiencyAssessor init failed" << endm;
         return kStFatal;
     }
+    std::cout << "loading centrality" << std::endl;
     if (TString(muDstMaker_->GetFile()).Contains("SL17d")) {
+        std::cout << "p17id?" << std::endl;
         p17id_cent_def_ = new CentralityDef();
+        p16id_cent_def_ = nullptr;
     }
     else if (TString(muDstMaker_->GetFile()).Contains("SL16d")) {
+        std::cout << "p16id?" << std::endl;
         p16id_cent_def_ = CentralityMaker::instance()->getgRefMultCorr_P16id();
         p16id_cent_def_->setVzForWeight(6, -6.0, 6.0);
         p16id_cent_def_->readScaleForWeight("StRoot/StRefMultCorr/macros/weight_grefmult_vpd30_vpd5_Run14_P16id.txt");
+        p17id_cent_def_ = nullptr;
     }
     else {
         LOG_ERROR << "Library could not be discovered: exiting" << endm;
         return kStFatal;
     }   
-
+    std::cout << "load centrality successful" << std::endl;
     return kStOK;
 }
 
