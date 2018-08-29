@@ -39,10 +39,13 @@ StEfficiencyAssessor::~StEfficiencyAssessor() {
 }
 
 int StEfficiencyAssessor::Init() {
+    LOG_INFO << "loading input" << endm;
     if (InitInput() != kStOK)
         return kStFatal;
+    LOG_INFO << "loading output" << endm;
     if (InitOutput() != kStOK)
         return kStFatal;
+    LOG_INFO << "load successful" << endm;
     return kStOK;
 }
 
@@ -89,12 +92,13 @@ bool StEfficiencyAssessor::LoadTree(TChain* chain) {
         LOG_ERROR << "chain does not contain StMiniMcEvent branch" << endm;
         return false;
     }
-
+    LOG_INFO << "loading chain" << endm;
     chain_ = chain;
     event_ = new StMiniMcEvent;
 
     chain_->SetBranchAddress("StMiniMcEvent", &event_);
     chain_->GetEntry(0);
+    LOG(INFO) << "chain loaded" << endm;
     return true;
 }
 
@@ -104,13 +108,13 @@ bool StEfficiencyAssessor::CheckAxes() {
 }
 
 Int_t StEfficiencyAssessor::Make() {
-
+    LOG_INFO << "calling make" <<endm;
     if (event_ == nullptr) {
         LOG_ERROR << "StMiniMcEvent Branch not loaded properly: exiting run loop" << endm;
         return kStFatal;
     }
 
-
+    LOG_INFO << "loading event" << endm;
     // load the matching miniMC event
     if (LoadEvent() == false) {
         LOG_ERROR << "Could not find miniMC event matching muDST event" << endm;
@@ -118,7 +122,7 @@ Int_t StEfficiencyAssessor::Make() {
     }
 
     int centrality = 0;
-
+    LOG_INFO << "getting centrality" << endm;
     if (p17id_cent_def_) {
         p17id_cent_def_->setEvent(muInputEvent_->runId(), muInputEvent_->refMult(), muInputEvent_->runInfo().zdcCoincidenceRate(), event_->vertexZ());
         centrality = p17id_cent_def_->centrality9();
@@ -134,7 +138,7 @@ Int_t StEfficiencyAssessor::Make() {
     }
     if (centrality < 0 || centrality > 8)
         return kStOK;
-
+    LOG_INFO << "got centrality" << endm;
     if (fabs(muInputEvent_->primaryVertexPosition().z()) > 30)
         return kStOK;
 
@@ -290,8 +294,8 @@ int StEfficiencyAssessor::InitOutput() {
      data_nhit_ = new TH3D("datanhit", ";cent;pt;nhit", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
     data_dca_ = new TH3D("datadca", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
     data_nhitposs_ = new TH3D("datanhitposs", ";cent;pt;nhitposs", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
-    data_eta_ = new TH3D("recoetacut", ";cent;pt;#eta", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
-    data_phi_ = new TH3D("recophicut", ";cent;pt;#phi", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -TMath::Pi(), TMath::Pi());
+    data_eta_ = new TH3D("dataeta", ";cent;pt;#eta", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
+    data_phi_ = new TH3D("dataphi", ";cent;pt;#phi", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -TMath::Pi(), TMath::Pi());
      data_fitfrac_ = new TH3D("datafitfrac", ";cent;pt;fitfrac", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
 
     vz_ = new TH1D("vz", ";v_{z}[cm]", 60, -30, 30);
