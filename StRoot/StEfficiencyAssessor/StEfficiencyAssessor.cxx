@@ -52,7 +52,7 @@ void StEfficiencyAssessor::SetDefaultAxes() {
     lumi_axis_ = axisDef(3, 0.0, 1e5);
     cent_axis_ = axisDef(9, -0.5, 8.5);
     vz_axis_ = axisDef(5, -30, 30);
-    pt_axis_   = axisDef(10, 0.0, 5.0);
+    pt_axis_   = axisDef(20, 0.0, 5.0);
     eta_axis_  = axisDef(5, -1.0, 1.0);
     phi_axis_  = axisDef(6, -TMath::Pi(), TMath::Pi());
 }
