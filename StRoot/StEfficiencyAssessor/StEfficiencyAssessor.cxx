@@ -228,7 +228,37 @@ Int_t StEfficiencyAssessor::Finish() {
 
     out_->cd();
 
+    vz_->Write();
+    refmult_->Write();
+    grefmult_->Write();
+    centrality_->Write();
+    mc_reco_tracks_->Write();
+    mc_tracks_->Write();
+    reco_tracks_->Write();
 
+    mc_eta_->Write();
+    mc_phi_->Write();
+
+    reco_nhit_->Write();
+    reco_dca_->Write();
+    reco_nhitposs_->Write();
+    reco_eta_->Write();
+    reco_phi_->Write();
+    reco_fitfrac_->Write();
+
+    reco_cut_nhit_->Write();
+    reco_cut_dca_->Write();
+    reco_cut_nhitposs_->Write();
+    reco_cut_eta_->Write();
+    reco_cut_phi_->Write();
+    reco_cut_fitfrac_->Write();
+
+    data_nhit_->Write();
+    data_dca_->Write();
+    data_nhitposs_->Write();
+    data_eta_->Write();
+    data_phi_->Write();
+    data_fitfrac_->Write();
 
     out_->Close();
     return kStOk;
