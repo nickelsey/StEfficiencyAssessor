@@ -41,13 +41,10 @@ StEfficiencyAssessor::~StEfficiencyAssessor() {
 }
 
 int StEfficiencyAssessor::Init() {
-    std::cout << "initializing" << std::endl;
     if (InitInput() != kStOK)
         return kStFatal;
-    std::cout << "initialized input" << std::endl;
     if (InitOutput() != kStOK)
         return kStFatal;
-    std::cout << "initialized output" << std::endl;
     return kStOK;
 }
 
@@ -86,12 +83,10 @@ void StEfficiencyAssessor::SetPhiAxis(unsigned n, double low, double high) {
 
 
 bool StEfficiencyAssessor::LoadTree(TChain* chain) {
-    std::cout << "loading tree" << std::endl;
     if (chain == nullptr) {
         LOG_INFO << "chain does not exist" << endm;
         return false;
     }
-    std::cout << "getting branch" << std::endl;
     if (chain->GetBranch("StMiniMcEvent") == nullptr) {
         LOG_ERROR << "chain does not contain StMiniMcEvent branch" << endm;
         return false;
@@ -101,7 +96,6 @@ bool StEfficiencyAssessor::LoadTree(TChain* chain) {
     
     chain_->SetBranchAddress("StMiniMcEvent", &event_);
     chain_->GetEntry(0);
-    std::cout << "load successful" << std::endl;
     return true;
 }
 
@@ -111,26 +105,21 @@ bool StEfficiencyAssessor::CheckAxes() {
 }
 
 Int_t StEfficiencyAssessor::Make() {
-    std::cout << "calling make" << std::endl;
     if (event_ == nullptr) {
         LOG_ERROR << "StMiniMcEvent Branch not loaded properly: exiting run loop" << endm;
         return kStFatal;
     }
-    std::cout << "loading event" << std::endl;
     // load the matching miniMC event
     if (LoadEvent() == false) {
         LOG_ERROR << "Could not find miniMC event matching muDST event" << endm;
         return kStErr;
     }
-    std::cout << "finished loading" << std::endl;
     int centrality = 0;
     if (p17id_cent_def_ != nullptr) {
-        std::cout << "p17id centrality?" << std::endl;
         p17id_cent_def_->setEvent(muInputEvent_->runId(), muInputEvent_->refMult(), muInputEvent_->runInfo().zdcCoincidenceRate(), event_->vertexZ());
         centrality = p17id_cent_def_->centrality9();
     }
     else if (p16id_cent_def_ != nullptr) {
-        std::cout << "p16id centrality?" << std::endl;
         p16id_cent_def_->init(muInputEvent_->runId());
         p16id_cent_def_->initEvent(muInputEvent_->grefmult(), muInputEvent_->primaryVertexPosition().z(), muInputEvent_->runInfo().zdcCoincidenceRate());
         centrality = p16id_cent_def_->getCentralityBin9();
@@ -139,7 +128,6 @@ Int_t StEfficiencyAssessor::Make() {
         LOG_ERROR << "error: no centrality definition created" << endm;
         return kStFatal;
     }
-    std::cout << "got here!" << std::endl;
     if (centrality < 0 || centrality > 8)
         return kStOK;
     if (fabs(muInputEvent_->primaryVertexPosition().z()) > 30)
@@ -281,14 +269,11 @@ int StEfficiencyAssessor::InitInput() {
         LOG_ERROR << "No muDstMaker found in chain: StEfficiencyAssessor init failed" << endm;
         return kStFatal;
     }
-    std::cout << "loading centrality" << std::endl;
     if (TString(muDstMaker_->GetFile()).Contains("SL17d")) {
-        std::cout << "p17id?" << std::endl;
         p17id_cent_def_ = new CentralityDef();
         p16id_cent_def_ = nullptr;
     }
     else if (TString(muDstMaker_->GetFile()).Contains("SL16d")) {
-        std::cout << "p16id?" << std::endl;
         p16id_cent_def_ = CentralityMaker::instance()->getgRefMultCorr_P16id();
         p16id_cent_def_->setVzForWeight(6, -6.0, 6.0);
         p16id_cent_def_->readScaleForWeight("StRoot/StRefMultCorr/macros/weight_grefmult_vpd30_vpd5_Run14_P16id.txt");
@@ -298,7 +283,6 @@ int StEfficiencyAssessor::InitInput() {
         LOG_ERROR << "Library could not be discovered: exiting" << endm;
         return kStFatal;
     }   
-    std::cout << "load centrality successful" << std::endl;
     return kStOK;
 }
 
