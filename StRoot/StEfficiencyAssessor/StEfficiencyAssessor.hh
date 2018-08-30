@@ -144,6 +144,7 @@ class StEfficiencyAssessor : public StMaker {
         TH3D* data_eta_;
         TH3D* data_phi_;
         TH3D* data_fitfrac_;
+        TH3D* data_dca_cut_;
 
         TH1D* vz_;
         TH1D* refmult_;
