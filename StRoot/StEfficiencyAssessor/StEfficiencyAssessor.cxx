@@ -217,7 +217,7 @@ Int_t StEfficiencyAssessor::Make() {
         data_eta_->Fill(centrality, muTrack->pt(), muTrack->eta());
         data_phi_->Fill(centrality, muTrack->pt(), muTrack->phi());
         data_nhitposs_->Fill(centrality, muTrack->pt(), muTrack->nHitsPoss(kTpcId)+1);
-        data_fitfrac_->Fill(centrality, muTrack->pt(), (double)(muTrack->nHitsFit())/(muTrack->nHitsPoss(kTpcId)+1)));
+        data_fitfrac_->Fill(centrality, muTrack->pt(), (double)(muTrack->nHitsFit())/(muTrack->nHitsPoss(kTpcId)+1));
 
     }
 
