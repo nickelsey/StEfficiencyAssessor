@@ -167,30 +167,32 @@ Int_t StEfficiencyAssessor::Make() {
         if (pair->parentGeantId() != 0)
             continue;
     
-        reco_nhit_->Fill(centrality, pair->ptPr(), pair->fitPts());
+        reco_nhit_->Fill(centrality, pair->ptPr(), pair->fitPts()+1);
         reco_dca_->Fill(centrality, pair->ptPr(), pair->dcaGl());
         reco_eta_->Fill(centrality, pair->ptPr(), pair->etaPr());
         reco_phi_->Fill(centrality, pair->ptPr(), pair->phiPr());
         reco_nhitposs_->Fill(centrality, pair->ptPr(), pair->nPossiblePts()+1);
-        reco_fitfrac_->Fill(centrality, pair->ptPr(), (double)pair->fitPts()/pair->nPossiblePts());
-
-        if (pair->dcaGl() > maxDCA_ || pair->fitPts() < minFit_)
-            continue;
+        reco_fitfrac_->Fill(centrality, pair->ptPr(), (double)(pair->fitPts()+1)/(pair->nPossiblePts()+1));
 
         if (fabs(pair->etaPr()) > 1.0)
             continue;
 
-        if ((double) pair->fitPts() / (pair->nPossiblePts()+1) < minFitFrac_)
+        if ((double) (pair->fitPts()+1) / (pair->nPossiblePts()+1) < minFitFrac_)
             continue;
+      
+        reco_dca_->Fill(centrality, pair->ptPr(), pair->dcaGl());
+      
+        if (pair->dcaGl() > maxDCA_ || pair->fitPts() < minFit_)
+          continue;
       
         count_pair++;
         reco_tracks_->Fill(centrality, pair->ptPr());
-        reco_cut_nhit_->Fill(centrality, pair->ptPr(), pair->fitPts());
+        reco_cut_nhit_->Fill(centrality, pair->ptPr(), pair->fitPts()+1);
         reco_cut_dca_->Fill(centrality, pair->ptPr(), pair->dcaGl());
         reco_cut_eta_->Fill(centrality, pair->ptPr(), pair->etaPr());
         reco_cut_phi_->Fill(centrality, pair->ptPr(), pair->phiPr());
         reco_cut_nhitposs_->Fill(centrality, pair->ptPr(), pair->nPossiblePts()+1);
-        reco_cut_fitfrac_->Fill(centrality, pair->ptPr(), (double)pair->fitPts()/pair->nPossiblePts());
+        reco_cut_fitfrac_->Fill(centrality, pair->ptPr(), (double)(pair->fitPts()+1)/(pair->nPossiblePts()+1));
     }
     mc_reco_tracks_->Fill(centrality, count_mc, count_pair);
 
@@ -205,7 +207,8 @@ Int_t StEfficiencyAssessor::Make() {
         if (fabs(muTrack->eta()) > 1.0)
             continue;
       
-        data_dca_cut_->Fill(centrality, muTrack->pt(), muTrack->dcaGlobal().mag());
+        data_dca_scale_->Fill(centrality, muTrack->pt(), muTrack->dcaGlobal().mag());
+      
         if (muTrack->dcaGlobal().mag() > maxDCA_)
           continue;
         
@@ -214,7 +217,7 @@ Int_t StEfficiencyAssessor::Make() {
         data_eta_->Fill(centrality, muTrack->pt(), muTrack->eta());
         data_phi_->Fill(centrality, muTrack->pt(), muTrack->phi());
         data_nhitposs_->Fill(centrality, muTrack->pt(), muTrack->nHitsPoss(kTpcId)+1);
-        data_fitfrac_->Fill(centrality, muTrack->pt(), (double)muTrack->nHitsFit()/muTrack->nHitsPoss(kTpcId)+1);
+        data_fitfrac_->Fill(centrality, muTrack->pt(), (double)(muTrack->nHitsFit())/(muTrack->nHitsPoss(kTpcId)+1)));
 
     }
 
@@ -247,7 +250,8 @@ Int_t StEfficiencyAssessor::Finish() {
     reco_eta_->Write();
     reco_phi_->Write();
     reco_fitfrac_->Write();
-
+    reco_dca_scale_->Write();
+  
     reco_cut_nhit_->Write();
     reco_cut_dca_->Write();
     reco_cut_nhitposs_->Write();
@@ -261,6 +265,7 @@ Int_t StEfficiencyAssessor::Finish() {
     data_eta_->Write();
     data_phi_->Write();
     data_fitfrac_->Write();
+    data_dca_scale_->Write();
 
     out_->Close();
     return kStOk;
@@ -305,13 +310,15 @@ int StEfficiencyAssessor::InitOutput() {
     reco_eta_ = new TH3D("recoeta", ";cent;pt;#eta", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
     reco_phi_ = new TH3D("recophi", ";cent;pt;#phi", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -TMath::Pi(), TMath::Pi());
     reco_fitfrac_ = new TH3D("recofitfrac", ";cent;pt;fitfrac", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
-   
+  
+    reco_dca_scale_ = new TH3D("recodcascale", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
+  
     reco_cut_nhit_ = new TH3D("reconhitcut", ";cent;pt;nhit", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
     reco_cut_dca_ = new TH3D("recodcacut", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
     reco_cut_nhitposs_ = new TH3D("reconhitposscut", ";cent;pt;nhitposs", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
     reco_cut_eta_ = new TH3D("recoetacut", ";cent;pt;#eta", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
     reco_cut_phi_ = new TH3D("recophicut", ";cent;pt;#phi", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -TMath::Pi(), TMath::Pi());
-     reco_cut_fitfrac_ = new TH3D("recocutfitfrac", ";cent;pt;fitfrac", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
+    reco_cut_fitfrac_ = new TH3D("recocutfitfrac", ";cent;pt;fitfrac", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
     
     data_nhit_ = new TH3D("datanhit", ";cent;pt;nhit", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 50);
     data_dca_ = new TH3D("datadca", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
@@ -319,7 +326,8 @@ int StEfficiencyAssessor::InitOutput() {
     data_eta_ = new TH3D("dataeta", ";cent;pt;#eta", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -1, 1);
     data_phi_ = new TH3D("dataphi", ";cent;pt;#phi", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, -TMath::Pi(), TMath::Pi());
     data_fitfrac_ = new TH3D("datafitfrac", ";cent;pt;fitfrac", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 1);
-    data_dca_cut_ = new TH3D("datadcacut", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
+  
+    data_dca_scale_ = new TH3D("datadcascale", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
   
     vz_ = new TH1D("vz", ";v_{z}[cm]", 60, -30, 30);
     refmult_ = new TH1D("refmult", ";refmult", 800, 0, 800);
