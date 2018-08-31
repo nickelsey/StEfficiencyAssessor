@@ -180,7 +180,7 @@ Int_t StEfficiencyAssessor::Make() {
         if ((double) (pair->fitPts()+1) / (pair->nPossiblePts()+1) < minFitFrac_)
             continue;
       
-        reco_dca_->Fill(centrality, pair->ptPr(), pair->dcaGl());
+        reco_dca_scale_->Fill(centrality, pair->ptPr(), pair->dcaGl());
       
         if (pair->dcaGl() > maxDCA_ || pair->fitPts() < minFit_)
           continue;
