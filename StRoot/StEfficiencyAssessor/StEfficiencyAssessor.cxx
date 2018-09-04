@@ -41,13 +41,10 @@ StEfficiencyAssessor::~StEfficiencyAssessor() {
 }
 
 int StEfficiencyAssessor::Init() {
-  std::cout << "in init" << std::endl;
     if (InitInput() != kStOK)
         return kStFatal;
-  std::cout << "finished input" << std::endl;
     if (InitOutput() != kStOK)
         return kStFatal;
-  std::cout << "finished output" << std::endl;
     return kStOK;
 }
 
@@ -281,7 +278,8 @@ int StEfficiencyAssessor::InitInput() {
         LOG_ERROR << "No muDstMaker found in chain: StEfficiencyAssessor init failed" << endm;
         return kStFatal;
     }
-    if (TString(muDstMaker_->GetFile()).Contains("SL17d")) {
+    if (TString(muDstMaker_->GetFile()).Contains("SL17d") ||
+        TString(muDstMaker_->GetFile()).Contains("SL18f")) {
         p17id_cent_def_ = new CentralityDef();
         p16id_cent_def_ = nullptr;
     }
