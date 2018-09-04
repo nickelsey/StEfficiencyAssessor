@@ -16,7 +16,7 @@ def listAllFiles(directory):
       files.append(os.path.abspath(os.path.join(dirpath, f)))
   return files
 
-def update_submit_script(file_path, mulist, mclist, geantid, dca, nhit, fitfrac, rootdir, outdir, library):
+def update_submit_script(file_path, mulist, mclist, dca, nhit, fitfrac, rootdir, outdir, library):
   #Create temp file
   tmpfile = 'tmp_submit.xml'
   abs_path = os.path.join(os.getcwd(), tmpfile)
@@ -50,7 +50,7 @@ def update_submit_script(file_path, mulist, mclist, geantid, dca, nhit, fitfrac,
 def main(args):
 
   ## create output directory
-  out_directory = 'out' + args.geantid
+  out_directory = 'out_' + args.library
   if not os.path.exists(out_directory):
     os.makedirs(out_directory)
     logdir = out_directory + '/tmplogs'
@@ -92,7 +92,7 @@ def main(args):
   for i in range(len(mu_list)) :
     mu_file = mu_list[i]
     mc_file = mc_list[i]
-    update_submit_script(xml_file, mu_file, mc_file, args.geantid, args.dca, args.nhits, args.fitfrac, rootdir, outdir, args.library)
+    update_submit_script(xml_file, mu_file, mc_file, args.dca, args.nhits, args.fitfrac, rootdir, outdir, args.library)
 
     star_submit = 'star-submit ' + xml_file
     print("submitting job: ")
