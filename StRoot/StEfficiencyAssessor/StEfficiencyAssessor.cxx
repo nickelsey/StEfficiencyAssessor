@@ -41,13 +41,10 @@ StEfficiencyAssessor::~StEfficiencyAssessor() {
 }
 
 int StEfficiencyAssessor::Init() {
-  std::cout << "init" << std::endl;
     if (InitInput() != kStOK)
         return kStFatal;
-  std::cout << "init input" << std::endl;
     if (InitOutput() != kStOK)
         return kStFatal;
-  std::cout << "init output" << std::endl;
     return kStOK;
 }
 

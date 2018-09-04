@@ -30,6 +30,7 @@ void efficiency_assessment(int nEvents = 1e9,
   gROOT->Macro("loadMuDst.C");
   gSystem->Load("StMiniMcEvent");
   gSystem->Load("libStEfficiencyAssessor.so");
+  gSystem->Load("libStEfficiencyAssessor.so");
 
   StChain* chain = new StChain("StChain");
   StMuDstMaker* muDstMaker = new StMuDstMaker(0, 0, "", muFileList, "", nFiles);
@@ -44,7 +45,7 @@ void efficiency_assessment(int nEvents = 1e9,
   std::string outname = std::string(nametag) + ".root";
   StEfficiencyAssessor* assessor = new StEfficiencyAssessor(mcChain, outname);
   assessor->AddGeantId(8);
-  assessor->AddGeantId(9)
+  assessor->AddGeantId(9);
   assessor->SetDCAMax(dcaMax);
   assessor->SetMinFitPoints(fitPoints);
   assessor->SetMinFitFrac(fitFrac);
