@@ -69,7 +69,7 @@
  <SandBox installer="ZIP">
 	 <Package name="Efficiency_&PROD;">
                 <File>file:&ROOTDIR;/macros/efficiency_assessment.cxx</File>
-                <File>file:&ROOTDIR;/libs/libStEfficiencyAssessment.so</File>
+                <File>file:&ROOTDIR;/libs/libStEfficiencyAssessor.so</File>
                 <File>file:&ROOTDIR;/libs/libStRefMultCorr.so</File>
                 <File>file:&ROOTDIR;/StRoot/StRefMultCorr</File>
          </Package>
