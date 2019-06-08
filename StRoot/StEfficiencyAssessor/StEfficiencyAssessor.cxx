@@ -279,7 +279,8 @@ int StEfficiencyAssessor::InitInput() {
         return kStFatal;
     }
     if (TString(muDstMaker_->GetFile()).Contains("SL17d") ||
-        TString(muDstMaker_->GetFile()).Contains("SL18f")) {
+        TString(muDstMaker_->GetFile()).Contains("SL18f") ||
+        TString(muDstMaker_->GetFile()).Contains("SL18h")) {
         p18ih_cent_def_ = new CentralityDef();
         p16id_cent_def_ = nullptr;
     }
