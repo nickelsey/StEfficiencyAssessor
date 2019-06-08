@@ -68,7 +68,7 @@ class StEfficiencyAssessor : public StMaker {
         void SetPhiAxis(unsigned n, double low, double high);
 
         // allows you to modify the centrality and StRefMultCorr definitions
-        CentralityDef* CentralityDefinitionP17id() {return p17id_cent_def_;}
+        CentralityDef* CentralityDefinitionP18ih() {return p18ih_cent_def_;}
         StRefMultCorr* CentralityDefinitionP16id() {return p16id_cent_def_;}
         // set track cuts for matched tracks
         void SetDCAMax(double dca) {maxDCA_ = dca;}
@@ -94,7 +94,7 @@ class StEfficiencyAssessor : public StMaker {
 
     private:
 
-        CentralityDef* p17id_cent_def_;
+        CentralityDef* p18ih_cent_def_;
         StRefMultCorr* p16id_cent_def_;
 
         int InitInput();
