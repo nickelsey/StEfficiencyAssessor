@@ -6,7 +6,7 @@
 # 1) StEfficiencyAssessor
 
 echo "[i] loading embedding library"
-starver SL17d_embed
+starver sl18h
 
 echo "[i] Remove any existing libs"
 rm -v libStEfficiencyAssessor.so
