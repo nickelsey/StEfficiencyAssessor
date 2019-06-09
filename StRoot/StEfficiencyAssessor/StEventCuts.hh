@@ -1,4 +1,4 @@
-/* internal class for StEffeciencyAssessor/etc
+/* internal class for StEfficiencyAssessor
    implements cuts on vertex, trigger selection,
    etc.
  */
@@ -20,7 +20,7 @@ public:
   StEventCuts();
   ~StEventCuts();
   
-  /* function called by StRefMultMaker, returns true if
+  /* function called by StEfficiencyAssessor, returns true if
      event should be accepted based on the defined cuts
    */
   Bool_t AcceptEvent(StMuEvent* event);

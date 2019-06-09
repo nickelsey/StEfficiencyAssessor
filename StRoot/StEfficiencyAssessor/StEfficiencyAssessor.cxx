@@ -116,7 +116,7 @@ Int_t StEfficiencyAssessor::Make() {
     }
 
     // check event cuts 
-    if (!cuts_.AcceptEvent(event_))
+    if (!cuts_.AcceptEvent(muInputEvent_))
         return kStOk;
 
     int centrality = 0;
