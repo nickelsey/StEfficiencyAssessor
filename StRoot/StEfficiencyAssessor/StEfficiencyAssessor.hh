@@ -3,6 +3,7 @@
 #define STEFFICIENCYASSESSOR__HH
 
 #include "centrality_def.hh"
+#include "StEventCuts.hh"
 
 #include <string>
 #include <vector>
@@ -70,6 +71,10 @@ class StEfficiencyAssessor : public StMaker {
         // allows you to modify the centrality and StRefMultCorr definitions
         CentralityDef* CentralityDefinitionP18ih() {return p18ih_cent_def_;}
         StRefMultCorr* CentralityDefinitionP16id() {return p16id_cent_def_;}
+
+        // event cuts 
+        StEventCuts& EventCuts() {return cuts_;
+        }
         // set track cuts for matched tracks
         void SetDCAMax(double dca) {maxDCA_ = dca;}
         double DCAMax() const      {return maxDCA_;}
@@ -96,6 +101,8 @@ class StEfficiencyAssessor : public StMaker {
 
         CentralityDef* p18ih_cent_def_;
         StRefMultCorr* p16id_cent_def_;
+
+        StEventCuts cuts_;
 
         int InitInput();
         int InitOutput();

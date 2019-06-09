@@ -49,6 +49,11 @@ void efficiency_assessment(int nEvents = 1e9,
   assessor->SetDCAMax(dcaMax);
   assessor->SetMinFitPoints(fitPoints);
   assessor->SetMinFitFrac(fitFrac);
+
+  // event cuts
+  assessor->EventCuts().AddTrigger(450010);
+  assessor->EventCuts().AddTrigger(450020);
+
   // for each event, print the memory usage
   // helpful for debugging
   StMemStat memory;

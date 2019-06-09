@@ -114,6 +114,11 @@ Int_t StEfficiencyAssessor::Make() {
         LOG_ERROR << "Could not find miniMC event matching muDST event" << endm;
         return kStErr;
     }
+
+    // check event cuts 
+    if (!cuts_.AcceptEvent(event_))
+        return kStOk;
+
     int centrality = 0;
     if (p18ih_cent_def_ != nullptr) {
         p18ih_cent_def_->setEvent(muInputEvent_->runId(), muInputEvent_->refMult(), muInputEvent_->runInfo().zdcCoincidenceRate(), event_->vertexZ());
