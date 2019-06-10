@@ -350,7 +350,7 @@ int StEfficiencyAssessor::InitOutput() {
     mc_tracks_ = new TH2D("mctracks", ";cent;pt", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high);
     reco_tracks_ = new TH2D("recotracks", ";cent;pt", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high);
 
-    dca_reco_cut_ext_ = new TH3D("datarecoext", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, 100, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
+    dca_reco_cut_ext_ = new TH3D("recocutdcaext", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, 100, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
     dca_data_cut_ext_ = new TH3D("datadcaext", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, 100, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
 
     return kStOK;
