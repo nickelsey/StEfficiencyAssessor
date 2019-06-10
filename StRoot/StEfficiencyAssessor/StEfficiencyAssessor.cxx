@@ -198,6 +198,7 @@ Int_t StEfficiencyAssessor::Make() {
         reco_cut_phi_->Fill(centrality, pair->ptPr(), pair->phiPr());
         reco_cut_nhitposs_->Fill(centrality, pair->ptPr(), pair->nPossiblePts()+1);
         reco_cut_fitfrac_->Fill(centrality, pair->ptPr(), (double)(pair->fitPts()+1)/(pair->nPossiblePts()+1));
+        dca_reco_cut_ext_->Fill(centrality, pair->ptPr(), pair->dcaGl());
     }
     mc_reco_tracks_->Fill(centrality, count_mc, count_pair);
 
@@ -223,7 +224,7 @@ Int_t StEfficiencyAssessor::Make() {
         data_phi_->Fill(centrality, muTrack->pt(), muTrack->phi());
         data_nhitposs_->Fill(centrality, muTrack->pt(), muTrack->nHitsPoss(kTpcId)+1);
         data_fitfrac_->Fill(centrality, muTrack->pt(), (double)(muTrack->nHitsFit())/(muTrack->nHitsPoss(kTpcId)+1));
-
+        dca_data_cut_ext_->Fill(centrality, muTrack->pt(), muTrack->dcaGlobal().mag());
     }
 
 
@@ -271,6 +272,9 @@ Int_t StEfficiencyAssessor::Finish() {
     data_phi_->Write();
     data_fitfrac_->Write();
     data_dca_scale_->Write();
+
+    dca_reco_cut_ext_->Write();
+    dca_data_cut_ext_->Write();
 
     out_->Close();
     return kStOk;
@@ -345,6 +349,9 @@ int StEfficiencyAssessor::InitOutput() {
 
     mc_tracks_ = new TH2D("mctracks", ";cent;pt", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high);
     reco_tracks_ = new TH2D("recotracks", ";cent;pt", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, pt_axis_.nBins, pt_axis_.low, pt_axis_.high);
+
+    dca_reco_cut_ext_ = new TH3D("datarecoext", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, 100, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
+    dca_data_cut_ext_ = new TH3D("datadcaext", ";cent;pt;DCA[cm]", cent_axis_.nBins, cent_axis_.low, cent_axis_.high, 100, pt_axis_.low, pt_axis_.high, 50, 0, 3.0);
 
     return kStOK;
 }

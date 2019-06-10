@@ -164,6 +164,9 @@ class StEfficiencyAssessor : public StMaker {
         TH2D* mc_tracks_;
         TH2D* reco_tracks_;
 
+        TH3D* dca_reco_cut_ext_;
+        TH3D* dca_data_cut_ext_;
+
         int minFit_;
         double minFitFrac_;
         double maxDCA_;
