@@ -37,7 +37,7 @@ def main(args):
     os.makedirs(out_dir)
 
   ## get the list of input files
-  filelist = listAllFiles(args.listDir)
+  filelist = listAllFiles(args.listdir)
 
   ## sort the files into mu and mc lists
   find_mu = re.compile('mu\d+.list')
