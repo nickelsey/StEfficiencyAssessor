@@ -23,7 +23,7 @@ echo "[i] Changing CXXFLAGS to: "${CXXFLAGSNEW}
 
 echo "[i] Running cons for StEfficiencyAssessor"
 
-cons CXXFLAGS="${CXXFLAGSNEW}" +StEfficiencyAssessor +StRefMultCorr
+cons CXXFLAGS="${CXXFLAGSNEW}" +StEfficiencyAssessor
 
 
 # places copies of the libraries into the local lib directory
