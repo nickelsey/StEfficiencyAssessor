@@ -26,7 +26,7 @@ def main(args):
 
   ## create output from input variables
   param_string = "dca_{}_nhit_{}_nhitfrac_{}".format(args.dca, args.nhit, args.nhitfrac)
-  out_base = os.path.join(args.outputroot, args.outputtag, param_string)
+  out_base = os.path.join(args.outputroot, args.production, args.outputtag, param_string)
   log_dir = os.path.join(out_base, "log")
   out_dir = os.path.join(out_base, "out")
 
@@ -96,9 +96,10 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser(description='Submit QA jobs to generate refmult trees via star-submit-template day-by-day')
   parser.add_argument('--submitscript', default='submit/submit_efficiency_assessment.xml', help='the xml file for star-submit-template')
   parser.add_argument('--listdir', default='list/auau200_pion', help='day range to submit jobs for, separated by "-"')
-  parser.add_argument('--outputtag', default='AuAu_200_pion', help='output directory name (appended to outputroot')
+  parser.add_argument('--production', default='P18ih', help='production tag associated with the data embedded into')
+  parser.add_argument('--outputtag', default='emb/AuAu_200_production_2014', help='output directory name (appended to outputroot/production')
   parser.add_argument('--library', default='SL19c', help='production library')
-  parser.add_argument('--outputroot', default='/gpfs01/star/pwg/nelsey/emb', help='root directory for all output and logs')
+  parser.add_argument('--outputroot', default='/gpfs01/star/pwg/nelsey', help='root directory for all output and logs')
   parser.add_argument('--dca', default='3.0', help='dca cut for reconstructed tracks')
   parser.add_argument('--nhit', default='15', help='number of reconstructed hits in track reco')
   parser.add_argument('--nhitfrac', default='0.52', help='fraction of reconstructed hits out of possible hits in track reco')
