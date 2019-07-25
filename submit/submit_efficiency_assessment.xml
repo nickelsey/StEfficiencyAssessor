@@ -57,9 +57,9 @@
  </SandBox>
  
  <Generator>
-   <Location>scheduler/report/</Location>
-   <ScriptLocation>scheduler/csh/</ScriptLocation>
-   <ListLocation>scheduler/list/</ListLocation>
+   <Location>$SUBMITTINGDIRECTORY/scheduler/report/</Location>
+   <ScriptLocation>$SUBMITTINGDIRECTORY/scheduler/csh/</ScriptLocation>
+   <ListLocation>$SUBMITTINGDIRECTORY/scheduler/list/</ListLocation>
  </Generator>
 
 <stdout URL="file:&log;/$JOBID.log" />
