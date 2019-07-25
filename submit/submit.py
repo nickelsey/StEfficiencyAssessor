@@ -94,7 +94,7 @@ def main(args):
     
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description='Submit QA jobs to generate refmult trees via star-submit-template day-by-day')
-  parser.add_argument('--submitscript', default='submit/submit_makepicos_defaults.xml', help='the xml file for star-submit-template')
+  parser.add_argument('--submitscript', default='submit/submit_efficiency_assessment.xml', help='the xml file for star-submit-template')
   parser.add_argument('--listdir', default='list/auau200_pion', help='day range to submit jobs for, separated by "-"')
   parser.add_argument('--outputtag', default='AuAu_200_pion', help='output directory name (appended to outputroot')
   parser.add_argument('--library', default='SL19c', help='production library')
