@@ -119,11 +119,11 @@ def main(args):
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description='Submit embedding jobs via star-submit')
-  parser.add_argument('--listDir', default='lists/sl18f', help='location of embedding file lists')
-  parser.add_argument('--dca', default='1.0', help='dca cut for reconstructed tracks')
-  parser.add_argument('--nhits', default='20', help='number of reconstructed hits in track reco')
+  parser.add_argument('--listDir', default='lists/auau200', help='location of embedding file lists')
+  parser.add_argument('--dca', default='3.0', help='dca cut for reconstructed tracks')
+  parser.add_argument('--nhits', default='15', help='number of reconstructed hits in track reco')
   parser.add_argument('--fitfrac', default='0.52', help='fraction of reconstructed hits out of possible hits in track reco')
-  parser.add_argument('--library', default='SL18f', help='star library version')
+  parser.add_argument('--library', default='SL19c', help='star library version')
   parser.add_argument('--submitscript', default='jobSubmit.xml', help='the xml file for star-submit')
   args = parser.parse_args()
   main( args )
