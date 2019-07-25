@@ -98,7 +98,7 @@ if __name__ == "__main__":
   parser.add_argument('--listdir', default='list/auau200_pion', help='day range to submit jobs for, separated by "-"')
   parser.add_argument('--production', default='P18ih', help='production tag associated with the data embedded into')
   parser.add_argument('--outputtag', default='emb/AuAu_200_production_2014', help='output directory name (appended to outputroot/production')
-  parser.add_argument('--library', default='SL19c', help='production library')
+  parser.add_argument('--library', default='pro', help='STAR library version to run analysis with')
   parser.add_argument('--outputroot', default='/gpfs01/star/pwg/nelsey', help='root directory for all output and logs')
   parser.add_argument('--dca', default='3.0', help='dca cut for reconstructed tracks')
   parser.add_argument('--nhit', default='15', help='number of reconstructed hits in track reco')
