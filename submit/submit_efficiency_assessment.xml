@@ -32,9 +32,7 @@
    
     starver &lib;
     
-    setenv NUMBER `wc -l &mulist;`
-    echo $NUMBER
-    echo `wc -l &mulist;`
+    setenv NUMBER `wc -l &mulist; | cut -f1 -d' '`
 
     root4star -q -b efficiency_assessment.cxx\(1e9,\"\&mulist;\",\"\&mclist;\",\"$JOBID\",&dca;,&nhit;,&nhitfrac;,$NUMBER\)
 
