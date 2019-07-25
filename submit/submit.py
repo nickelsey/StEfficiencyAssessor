@@ -93,7 +93,7 @@ def main(args):
       print('warning: job submission failure')
     
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser(description='Submit QA jobs to generate refmult trees via star-submit-template day-by-day')
+  parser = argparse.ArgumentParser(description='Submit QA jobs to generate efficiency qa', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
   parser.add_argument('--submitscript', default='submit/submit_efficiency_assessment.xml', help='the xml file for star-submit-template')
   parser.add_argument('--listdir', default='list/auau200_pion', help='day range to submit jobs for, separated by "-"')
   parser.add_argument('--production', default='P18ih', help='production tag associated with the data embedded into')
